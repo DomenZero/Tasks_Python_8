@@ -28,7 +28,9 @@ def dkstra(graph, start):
     min_vertex=start
     next_vertex=[]
     way = deque([range(length)])
-    path=[]
+
+    path = [[]]
+    result = [[] for _ in range(length)]
 
     while min_cost<float('inf'):
         is_visited[start]=True
@@ -41,20 +43,28 @@ def dkstra(graph, start):
                     parent[i]=start
         min_cost=float('inf')
         for i in range(length):
-
             if min_cost>cost[i] and not is_visited[i]:
 
                 if min_cost!='inf':
-                    path.append([parent[i]])
                     next_vertex.append([i])
-                    print(parent[i], i, cost[i])
+                    # print(parent[i], i, cost[i])
                 min_cost=cost[i]
                 start=i
 
-    print(length)
-    j=0
-    return
+            if is_visited[i]:
+                result[i].append(i)
+                j = i
+                while parent[j] != -1:
+                    result[i].append(parent[j])
+                    j = parent[j]
+
+
+    for i in range(length):
+        if is_visited[i]:
+            print(list(set(result[i])))
+
+    return cost
 
 
 s=int(input('От какой вершины идти: '))
-dkstra(g,s)
+print(dkstra(g,s))
